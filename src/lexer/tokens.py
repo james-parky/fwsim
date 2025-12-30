@@ -17,7 +17,7 @@ class Position:
         return f"({self.line}:{self.col})"
 
     # `c` provided as a string due to limitations of Python's type system.
-    def add(self, c: str) -> Position:
+    def add(self, c: str) -> 'Position':
         """
         Generate the next position given the current one, and the provided
         character. Increment the column count for any character, other than a
@@ -36,7 +36,7 @@ class Position:
         return Position(self.line, self.col + 1)
 
     @staticmethod
-    def undefined() -> Position:
+    def undefined() -> 'Position':
         """Static method to return a sentinal 'undefined' position in input."""
 
         return Position(0, 0)
