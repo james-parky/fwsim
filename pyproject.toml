@@ -1,0 +1,6 @@
+[project]
+name = "fwsim"
+version = "0.0.0"
+
+[project.scripts]
+fwsim = "fwsim.cli:main"

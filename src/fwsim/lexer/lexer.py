@@ -22,8 +22,38 @@ class Lexer:
             self._read_next()
 
         ret = self._peek
-        self._peek = None
+        # self._peek = None
         return ret
+
+    def chomp(self, expect: TokenType, value: Optional[str] = None) -> Token:
+        got = self.next()
+        if got is None:
+            raise RuntimeError("None token from next()")
+
+        if not got.is_type(expect):
+            raise RuntimeError(f"expected token of type: {expect}, but got {got}")
+
+        if value and (value != got.value):
+            raise RuntimeError(f"expected token with value {value}, but got {got.value}")
+
+        return got
+
+    def skip_comments_then_chomp(self, expect: TokenType) -> Token:
+        self.chomp_while(TokenType.COMMENT)
+        return self.chomp(expect)
+
+    def chomp_while(self, expect: TokenType):
+        while True:
+            got = self.peek()
+            if got is None:
+                raise RuntimeError("None token while chomping")
+
+            if not got.is_type(expect):
+                return
+
+            _ = self.next()
+
+
 
     def _read_next(self):
         if self._peek is not None:
@@ -89,7 +119,7 @@ class Lexer:
         if all(c.isdigit() for c in s):
             return Token(TokenType.INTEGER_LITERAL, s, pos)
 
-        return Token(Token.keyword_or_ident(s), s, pos)
+        return Token(TokenType.IDENTIFIER, s, pos)
 
 
 if __name__ == "__main__":

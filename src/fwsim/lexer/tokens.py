@@ -130,7 +130,7 @@ class Token:
         return self.type_ == t
 
     @staticmethod
-    def eof() -> Token:
+    def eof() -> 'Token':
         """
         A sentinal value for a token representing the end of lexible input.
         """
