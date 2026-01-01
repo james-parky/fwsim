@@ -92,10 +92,7 @@ class Lexer:
             self._peek = self._read_string_literal()
 
         else:
-            if peeked == str(0):
-                self._peek = Token.eof()
-            else:
-                self._peek = self._read_alnum()
+            self._peek = self._read_alnum()
 
     def _read_string_literal(self) -> Token:
         self._reader.must_chomp('"')
@@ -120,12 +117,3 @@ class Lexer:
             return Token(TokenType.INTEGER_LITERAL, s, pos)
 
         return Token(TokenType.IDENTIFIER, s, pos)
-
-
-if __name__ == "__main__":
-    lexer = Lexer('test;234;:,/{}()[]')
-    while True:
-        p = lexer.next()
-        if p is None:
-            break
-        print(p)
